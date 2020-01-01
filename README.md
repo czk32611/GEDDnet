@@ -5,6 +5,13 @@
   
   ![Architecture](https://raw.githubusercontent.com/czk32611/Gaze_Decomposition/master/Figure/Architecture.png)
 
+## Setup
+### 1. Prerequisites
+Tensorflow
+
+### 2. Datasets
+Preprocess the dataset so that it contains:
+(1) A 120\times 120 face image: *face_img* 
 
 ### Bibtex 
     

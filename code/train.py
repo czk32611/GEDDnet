@@ -142,7 +142,6 @@ def main(_):
 
     batch_size = 100;
     train_batch_size = 64
-    #batch_subj64[:,-1] = 1
     batch_subj100 = np.zeros((batch_size, 2*num_subj))
     
     saver = tf.train.Saver(max_to_keep = 100)
