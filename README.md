@@ -11,6 +11,7 @@ Tensorflow
 
 ### 2. Datasets
 Preprocess the dataset so that it contains:
+
 (1) A 120*120 face image: *face_img* 
 
 (2) Two 80*120 eye images: *left_eye_img* and *right_eye_img*
