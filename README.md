@@ -1,6 +1,6 @@
 # GEDDnet: A Network for Gaze Estimation with Dilation and Decomposition
 
-  ![Architecture](https://raw.githubusercontent.com/czk32611/Gaze_Decomposition/master/Figure/Architecture.png)
+  ![Architecture](https://raw.githubusercontent.com/czk32611/GEDDnet/master/Figure/Architecture.png)
 
 ## Dilated Convolution 
   We use dilated-convolutions to capture high-level features at high-resolution from eye images. We replace some regular convolutional layers and max-pooling layers of a VGG16 network by dilated-convolutional layers with different dilation rates.
