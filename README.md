@@ -1,9 +1,11 @@
+# GEDDnet: A Network for Gaze Estimation with Dilation and Decomposition
+
   ![Architecture](https://raw.githubusercontent.com/czk32611/Gaze_Decomposition/master/Figure/Architecture.png)
 
-# Dilated Convolution 
+## Dilated Convolution 
   We use dilated-convolutions to capture high-level features at high-resolution from eye images. We replace some regular convolutional layers and max-pooling layers of a VGG16 network by dilated-convolutional layers with different dilation rates.
 
-# Gaze Decomposition
+## Gaze Decomposition
   We propose gaze decomposition for appearance-based gaze estimation, which decomposes the gaze estimate into the sum of a subject-independent term estimated from the input image by a deep convolutional network and a subject-dependent bias term. 
 
   During training, both the weights of the deep network and the bias terms are estimated. During testing, if no calibration data is available, we can set the bias term to zero. Otherwise, the bias term can be estimated from images of the subject gazing at different gaze targets. The proposed gaze decompostion method enables low complexity calibraiton, i.e., using calibration data collected when subjects view only one or a few gaze targets and the number of images per gaze target is small.
