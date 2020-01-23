@@ -30,7 +30,7 @@ import numpy as np
 import random
 from tf_utils import conv2d, dilated2d, max_pool_2x2, weight_variable, bias_variable, dense_to_one_hot
 from PreProcess import randomRotate, pre_process_eye_images, pre_process_face_images, flip_images
-from GEDDnet import GEDDnet
+from dilatedNet import dilatedNet
 import matplotlib.pyplot as plt
 import math
 import scipy.io as spio
@@ -104,7 +104,7 @@ def main(_):
     r_processed = tf.where(is_aug, pre_process_eye_images(x_r, True), pre_process_eye_images(x_r, False))
     right_eye = r_processed - mu
     
-    g_hat, t_hat, bias_W_fc, l2_loss = GEDDnet(face, left_eye, right_eye, 
+    g_hat, t_hat, bias_W_fc, l2_loss = dilatedNet(face, left_eye, right_eye, 
                                                   keep_prob, is_train, subj_id, 
                                                   vgg_path=FLAGS.vgg_dir)
     
