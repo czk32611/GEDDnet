@@ -24,21 +24,21 @@ def conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME'):
 
 def dilated2d(x, W, rate, strides=[1, 1, 1, 1], padding='VALID'):
     """conv2d returns a 2d convolution layer with full stride. depend on rate"""
-    return tf.nn.dilation2d(x, W, strides=strides, padding=padding,
-                            dilations=[1, rate[0], rate[1], 1])
-    
+    return tf.nn.convolution(x, W, strides=strides, padding=padding,
+                             dilations=[1, rate[0], rate[1], 1])
+
 def max_pool_2x2(x):
     """max_pool_2x2 downsamples a feature map by 2X."""
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
-                        strides=[1, 2, 2, 1], padding='SAME')
+                          strides=[1, 2, 2, 1], padding='SAME')
 # %%
-def weight_variable(shape, std = 0.1, trainable = True):
+def weight_variable(shape, std=0.1, trainable=True):
     """weight_variable generates a weight variable of a given shape."""
     initial = tf.truncated_normal(shape, stddev=std)
-    return tf.Variable(initial, trainable = trainable)
+    return tf.Variable(initial, trainable=trainable)
 
 # %%
-def bias_variable(shape, std = 0.1, trainable = True):
+def bias_variable(shape, std=0.1, trainable=True):
     '''Helper function to create a bias variable initialized with
     a constant value.
     Parameters
@@ -47,9 +47,9 @@ def bias_variable(shape, std = 0.1, trainable = True):
         Size of weight variable
     '''
     initial = tf.random_normal(shape, mean=0.0, stddev=std)
-    return tf.Variable(tf.abs(initial), trainable = trainable)
+    return tf.Variable(tf.abs(initial), trainable=trainable)
 
-# %% 
+# %%
 def dense_to_one_hot(labels, n_classes=2):
     """Convert class labels from scalars to one-hot vectors."""
     labels = np.array(labels)
