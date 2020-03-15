@@ -31,7 +31,6 @@ import random
 from tf_utils import conv2d, dilated2d, max_pool_2x2, weight_variable, bias_variable, dense_to_one_hot
 from PreProcess import randomRotate, pre_process_eye_images, pre_process_face_images, flip_images
 from GEDDnet import GEDDnet
-import matplotlib.pyplot as plt
 import math
 import scipy.io as spio
 
@@ -115,10 +114,10 @@ def main(_):
                   tf.abs(tf.reduce_mean(bias_W_fc[:num_subj,0]))+tf.abs(tf.reduce_mean(bias_W_fc[num_subj:,0]))+
                   tf.abs(tf.reduce_mean(bias_W_fc[:num_subj,1]))+tf.abs(tf.reduce_mean(bias_W_fc[num_subj:,1])))
 
-    cls1_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="face") + \
-                tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="eye") + \
-                tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="combine") + \
-                tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="bias")
+    cls1_vars = (tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="face") +
+                 tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="eye") +
+                 tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="combine") +
+                 tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="bias"))
 
     vgg_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope="transfer")
 
@@ -324,7 +323,7 @@ def main(_):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--MPII_dir', type=str,
+    parser.add_argument('--data_dir', type=str,
                         default='../data/',
                         help='Directory for storing Mpii data')
     parser.add_argument('--vgg_dir', type=str,

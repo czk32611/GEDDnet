@@ -50,9 +50,9 @@ def preprocess_eye_image(image, Augmentation, offset=(5,8), resize_size=(80, 120
     if Augmentation == True:
 
         # input is 80*120, then crop 64*96
-        angle = tf.random_uniform([1], minval=-0.087, maxval=0.087)
+        angle = tf.random.uniform([1], minval=-0.087, maxval=0.087)
         x_processed = tf.contrib.image.rotate(x_processed, angle)
-        scale = tf.concat([tf.random_uniform([1], minval = 0.85, maxval = 1.15), tf.random_uniform([1], minval = 0.9, maxval = 1.1)],axis=0)
+        scale = tf.concat([tf.random.uniform([1], minval = 0.85, maxval = 1.15), tf.random.uniform([1], minval = 0.9, maxval = 1.1)],axis=0)
         x_processed = tf.image.resize_images(x_processed, tf.cast(tf.round(scale*resize_size),dtype=tf.int32))
         img_shape = tf.shape(x_processed)[0:2]
         pad = tf.cast(tf.round(0.5*tf.cast(tf.constant(pad_size) - img_shape,dtype=tf.float32)),dtype=tf.int32)
@@ -60,8 +60,8 @@ def preprocess_eye_image(image, Augmentation, offset=(5,8), resize_size=(80, 120
         x_processed = tf.image.pad_to_bounding_box(x_processed,
                                 pad[0],pad[1],pad_size[0], pad_size[1])
 
-        random_offset_y = tf.random_uniform([1],minval=-offset[0],maxval=offset[0], dtype=tf.int32)
-        random_offset_x = tf.random_uniform([1],minval=-offset[1],maxval=offset[1], dtype=tf.int32)
+        random_offset_y = tf.random.uniform([1],minval=-offset[0],maxval=offset[0], dtype=tf.int32)
+        random_offset_x = tf.random.uniform([1],minval=-offset[1],maxval=offset[1], dtype=tf.int32)
         corner_y = random_offset_y[0] + tf.constant(pad_size[0]//2-out_size[0]//2,dtype=tf.int32)
         corner_x = random_offset_x[0] + tf.constant(pad_size[1]//2-out_size[1]//2,dtype=tf.int32)
         x_processed = tf.image.crop_to_bounding_box(x_processed,
@@ -88,7 +88,7 @@ def preprocess_face_image(image, Augmentation, offset=(12,12), resize_size=(120,
 
     if Augmentation == True:
         # input is 80*120, then crop 64*96
-        scale = tf.random_uniform([2], minval = 0.85, maxval = 1.15)
+        scale = tf.random.uniform([2], minval = 0.85, maxval = 1.15)
         x_processed = tf.image.resize_images(x_processed, tf.cast(tf.round(scale*resize_size),dtype=tf.int32))
         img_shape = tf.shape(x_processed)[0:2]
         pad = tf.cast(tf.round(0.5*tf.cast(tf.constant(pad_size) - img_shape,dtype=tf.float32)),dtype=tf.int32)
@@ -96,8 +96,8 @@ def preprocess_face_image(image, Augmentation, offset=(12,12), resize_size=(120,
         x_processed = tf.image.pad_to_bounding_box(x_processed,
                                 pad[0],pad[1],pad_size[0], pad_size[1])
 
-        random_offset_y = tf.random_uniform([1],minval=-offset[0],maxval=offset[0], dtype=tf.int32)
-        random_offset_x = tf.random_uniform([1],minval=-offset[1],maxval=offset[1], dtype=tf.int32)
+        random_offset_y = tf.random.uniform([1],minval=-offset[0],maxval=offset[0], dtype=tf.int32)
+        random_offset_x = tf.random.uniform([1],minval=-offset[1],maxval=offset[1], dtype=tf.int32)
         corner_y = random_offset_y[0] + tf.constant(pad_size[0]//2-out_size[0]//2,dtype=tf.int32)
         corner_x = random_offset_x[0] + tf.constant(pad_size[1]//2-out_size[1]//2,dtype=tf.int32)
         x_processed = tf.image.crop_to_bounding_box(x_processed,
