@@ -13,7 +13,9 @@
 ## Setup
 ### 1. Prerequisites
 Tensorflow == 1.15
+
 python == 3.7
+
 opencv
 
 ### 2. Datasets
