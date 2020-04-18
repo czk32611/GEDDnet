@@ -21,14 +21,14 @@ opencv
 ### 2. Datasets
 Preprocess the dataset so that it contains:
 
-(1) A 120*120 face image: *face_img*
+(1) A 120$\times$120 face image: *face_img*
 
-(2) Two 80*120 eye images: *left_eye_img* and *right_eye_img*
+(2) Two 80$\times$120 eye images: *left_eye_img* and *right_eye_img*
 
 (3) Pitch and yaw gaze angles in radian: *eye_angle*
 
 ### 3. Online Data Augmentation
-During training, PreProcess.py will perform online data augmentatioin. The *face_img* will be randomly cropped from 120*120 to 96*96; the *eye_img* will be cropped from 80*120 to 64*96.
+During training, PreProcess.py will perform online data augmentatioin, including random horizontal flipping, rotate and cropping. The *face_img* will be cropped from 120$\times$120 to 96$\times$96; the *eye_img* will be cropped from 80$\times$120 to 64$\times$96.
 
 ### 4. Training and Testing
 Just simplily run:
