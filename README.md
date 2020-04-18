@@ -27,7 +27,10 @@ Preprocess the dataset so that it contains:
 
 (3) Pitch and yaw gaze angles in radian: *eye_angle*
 
-### 3. Training and testing
+### 3. Online Data Augmentation
+During training, PreProcess.py will perform online data augmentatioin. The *face_img* will be randomly cropped from 120*120 to 96*96; the *eye_img* will be cropped from 80*120 to 64*96.
+
+### 4. Training and Testing
 Just simplily run:
 
     cd code
