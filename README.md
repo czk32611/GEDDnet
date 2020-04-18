@@ -25,7 +25,9 @@ Preprocess the dataset so that it contains:
 
 (2) Two 80$\times$120 eye images: *left_eye_img* and *right_eye_img*
 
-(3) Pitch and yaw gaze angles in radian: *eye_angle*
+(3) Pitch and yaw gaze angles in radian: *eye_angle*. **Remember pitch first!!**
+
+In dataset['face_img'] in train.py, the shape of the mat should be $N \times 120 \times 120$. The shape of dataset['eye_img'] should be $N \times 80 \times 120$. The shape of dataset['eye_angle'] should be $N \times 2$
 
 ### 3. Online Data Augmentation
 During training, PreProcess.py will perform online data augmentatioin, including random horizontal flipping, rotate and cropping. The *face_img* will be cropped from 120$\times$120 to 96$\times$96; the *eye_img* will be cropped from 80$\times$120 to 64$\times$96.
