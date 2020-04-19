@@ -27,7 +27,7 @@ Preprocess the dataset so that it contains:
 
 (3) Pitch and yaw gaze angles in radian: *eye_angle*. **Remember pitch first!!**
 
-(4) An integer indicates to index each subject: *subject_index*.
+(4) An integer to index each subject: *subject_index*.
 **When the images of a subject are flipped horizontally, the index changes, i.e., subj_index+total_num_subject**
 
 In dataset['face_img'] in train.py, the shape of the mat should be $N \times 120 \times 120$. The shape of dataset['eye_img'] should be $N \times 80 \times 120$. The shape of dataset['eye_angle'] should be $N \times 2$. The shape of dataset['subject_index'] should be $N \times 1$.
