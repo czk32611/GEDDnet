@@ -27,16 +27,19 @@ Preprocess the dataset so that it contains:
 
 (3) Pitch and yaw gaze angles in radian: *eye_angle*. **Remember pitch first!!**
 
+(4) Subject index, an integer indicates to index each subject: *subject_index*.
+**When the images of a subject are flipped horizontally, the index changes, i.e., subj_index+total_num_subject**
+
 In dataset['face_img'] in train.py, the shape of the mat should be $N \times 120 \times 120$. The shape of dataset['eye_img'] should be $N \times 80 \times 120$. The shape of dataset['eye_angle'] should be $N \times 2$
 
 ### 3. Online Data Augmentation
-During training, PreProcess.py will perform online data augmentatioin, including random horizontal flipping, rotate and cropping. The *face_img* will be cropped from 120$\times$120 to 96$\times$96; the *eye_img* will be cropped from 80$\times$120 to 64$\times$96.
+During training, PreProcess.py will perform online data augmentatioin, including random horizontal flipping, rotate and cropping. The *face_img* will be cropped from 120$\times$120 to 96$\times$96; the *eye_img* will be cropped from 80$\times$120 to 64$\times$96; The *subject_index* will changes to *subject_index* + *total_num_subject* if the image is flipped horizontally.
 
 ### 4. Training and Testing
 Just simplily run:
 
     cd code
-    python train.py
+    python train.py --num_subject *total_num_subject_ignoring_horizontal_flipping*
 
 ### Bibtex
 

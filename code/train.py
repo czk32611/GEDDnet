@@ -62,7 +62,7 @@ def _angle2error(vec1, vec2):
 
 def creatIter(index, batch_size, isShuffle = False):
     dataset = tf.data.Dataset.from_tensor_slices(index)
-    if isShuffle == True:
+    if isShuffle is True:
         dataset = dataset.shuffle(buffer_size = index.shape[0])
     dataset = dataset.batch(batch_size)
     iterator = dataset.make_initializable_iterator()
@@ -77,7 +77,7 @@ def sigmoid(x):
 def main(_):
 
     input_size = (80, 120)
-    num_subj = 15
+    num_subj = FLAGS.num_subject
 
     mu = np.array([123.68, 116.779, 103.939], dtype=np.float32).reshape(
         (1, 1, 3))
@@ -93,6 +93,8 @@ def main(_):
 
 
     y_ = tf.placeholder(tf.float32, [None, 2])  # output label
+    # note that num_subj is multiplied by 2 because we treat the images that
+    # are horizontally flipped as a different subject
     subj_id = tf.placeholder(tf.float32, [None, 2 * num_subj])  # subject index
 
     # online data augmentation
@@ -152,16 +154,18 @@ def main(_):
         left_train = dataset['left_eye_img']
         right_train = dataset['right_eye_img']
         eye_train = dataset['eye_angle']
+        subj_train = dataset['subject_index']
         train_index = np.arange(eye_train.shape[0])
         vec_train = _2d2vec(eye_train)
-        # generate subject index
-        subj_train = np.array([]).reshape((0, 1))
-        subj_train2 = np.array([]).reshape((0, 1))
-        for ii in range(eye_train.shape[0] // 3000):
-            subj_train = np.vstack([subj_train, ii*np.ones((3000, 1))])
-            subj_train2 = np.vstack([subj_train2, ii*np.ones((1500, 1))])
-            subj_train2 = np.vstack([subj_train2, (ii+num_subj)*np.ones((1500, 1))])
-        subj_train = np.concatenate([subj_train, subj_train2], axis=1)
+        ## generate subject index
+        ## the below code only works for MPIIGaze as each subject has 3000 samples
+        # subj_train = np.array([]).reshape((0, 1))
+        # subj_train2 = np.array([]).reshape((0, 1))
+        # for ii in range(eye_train.shape[0] // 3000):
+        #     subj_train = np.vstack([subj_train, ii*np.ones((3000, 1))])
+        #     subj_train2 = np.vstack([subj_train2, ii*np.ones((1500, 1))])
+        #     subj_train2 = np.vstack([subj_train2, (ii+num_subj)*np.ones((1500, 1))])
+        # subj_train = np.concatenate([subj_train, subj_train2], axis=1)
 
         dataset = spio.loadmat(osp.join(FLAGS.data_dir, '{}test.mat'.format(fold)))
         face_test = dataset['face_img']
@@ -227,7 +231,7 @@ def main(_):
                                       x_f: batch_face, x_l: batch_left, x_r: batch_right, y_: batch_eye,
                                       keep_prob: 1.0,
                                       is_train: False,
-                                      subj_id: dense_to_one_hot(batch_subj_f[:,1:2], n_classes=2*num_subj),
+                                      subj_id: dense_to_one_hot(batch_subj_f, n_classes=2*num_subj),
                                       is_aug: True})
 
                         print('Epoch %d %d, batch accuracy %g' % (epoch, batch_counter, np.mean(res_loss)))
@@ -240,14 +244,14 @@ def main(_):
                                  feed_dict={x_f: batch_face, x_l: batch_left, x_r: batch_right,y_: batch_eye,
                                             keep_prob: 0.5,
                                             is_train: True,
-                                            subj_id: dense_to_one_hot(batch_subj_f[:,1:2], n_classes=2*num_subj),
+                                            subj_id: dense_to_one_hot(batch_subj_f, n_classes=2*num_subj),
                                             is_aug: True})
                     else:
                         sess.run([optimizer1, optimizer2],
                                  feed_dict={x_f: batch_face, x_l: batch_left, x_r: batch_right,y_: batch_eye,
                                             keep_prob: 0.5,
                                             is_train: True,
-                                            subj_id: dense_to_one_hot(batch_subj_f[:,1:2], n_classes=2*num_subj),
+                                            subj_id: dense_to_one_hot(batch_subj_f, n_classes=2*num_subj),
                                             is_aug: True})
 
                     batch_counter += 1
@@ -329,6 +333,9 @@ if __name__ == '__main__':
     parser.add_argument('--vgg_dir', type=str,
                         default='../data/vgg16_weights.npz',
                         help='Directory for pretrained vgg16')
+    parser.add_argument('--num_subject', type=int,
+                        default=15,
+                        help='The total number of subject (not include horizontal flip)')
     parser.add_argument('--train_check_step', type=int,
                         default=500,
                         help='The interval to print training loss')

@@ -133,9 +133,9 @@ def flip_images(face,left,right, eye, subj, flip_rate, num_subj, block_rate=0.1)
             right_out[img_id] = left[img_id,:,::-1]
             eye_out[img_id,1] = -eye[img_id,1]
             # change subject id if flipped
-            if subj[img_id, 1] < num_subj:
-                subj_out[img_id, 1] += num_subj
+            if subj[img_id] < num_subj:
+                subj_out[img_id] += num_subj
             else:
-                subj_out[img_id, 1] -= num_subj
+                subj_out[img_id] -= num_subj
 
     return face_out, left_out, right_out, eye_out, subj_out
