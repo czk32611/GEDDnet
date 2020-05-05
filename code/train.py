@@ -107,7 +107,8 @@ def main(_):
 
     g_hat, t_hat, bias_W_fc, l2_loss = GEDDnet(face, left_eye, right_eye,
                                                keep_prob, is_train, subj_id,
-                                               vgg_path=FLAGS.vgg_dir)
+                                               vgg_path=FLAGS.vgg_dir,
+                                               num_subj=num_subj)
 
     est_loss = tf.reduce_sum((g_hat - y_ * 10.)**2, axis = 1, keep_dims=True)
 
