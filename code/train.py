@@ -28,13 +28,14 @@ import os.path as osp
 import tensorflow as tf
 import numpy as np
 import random
-from tf_utils import conv2d, dilated2d, max_pool_2x2, weight_variable, bias_variable, dense_to_one_hot
+from tf_utils import dense_to_one_hot
 from PreProcess import randomRotate, pre_process_eye_images, pre_process_face_images, flip_images
 from GEDDnet import GEDDnet
 import math
 import scipy.io as spio
 
 FLAGS = None
+
 
 def _2d2vec(input_angle):
     # change 2D angle to 3D vector
@@ -44,12 +45,14 @@ def _2d2vec(input_angle):
                     np.cos(input_angle[:,1])*np.cos(input_angle[:,0])],axis=1)
     return vec
 
+
 def _vec22d(input_vec):
     # change 2D angle to 3D vector
     # input_angle: (vertical, horizontal)
     angle = np.stack([np.arcsin(input_vec[:,1]),
                     np.arctan2(input_vec[:,0],input_vec[:,2])],axis=1)
     return angle
+
 
 def _angle2error(vec1, vec2):
     # calculate the angular difference between vec1 and vec2
@@ -60,6 +63,7 @@ def _angle2error(vec1, vec2):
 
     return angle
 
+
 def creatIter(index, batch_size, isShuffle = False):
     dataset = tf.data.Dataset.from_tensor_slices(index)
     if isShuffle is True:
@@ -69,6 +73,7 @@ def creatIter(index, batch_size, isShuffle = False):
     next_element = iterator.get_next()
 
     return iterator, next_element
+
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
