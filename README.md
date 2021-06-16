@@ -36,14 +36,23 @@ In dataset['face_img'] in train.py, the shape of the mat should be $N \times 120
 During training, PreProcess.py will perform online data augmentatioin, including random horizontal flipping, rotate and cropping. The *face_img* will be cropped from 120$\times$120 to 96$\times$96; the *eye_img* will be cropped from 80$\times$120 to 64$\times$96; The *subject_index* will changes to *subject_index* + *total_num_subject* if the image is flipped horizontally.
 
 ### 4. Training and Testing
-Just simplily run:
+For training, just simplily run:
 
     cd code
     python train.py --num_subject *total_num_subject_ignoring_horizontal_flipping*
 
+For inference, run
+  
+    cd code
+    python infer.py
+
+Note that a trained model `data/models` and an example of camera matrix `data/camera_matrix.mat` are provided.
+
 ### Bibtex
 
-    @article{chen2020GEDD,
+    @article{chen2020geddnet,
      title={GEDDnet: A Network for Gaze Estimation with Dilation and Decomposition},
      author={Chen, Zhaokang and Shi, Bertram E},
+     journal={arXiv preprint arXiv:2001.09284},
+     year={2020}
      }
